@@ -1,0 +1,351 @@
+<krpano version="1.19" title="" showerrors="false" debugmode="true">
+
+	<include url="skin/skin_1.xml" devices="normal"/>
+
+	<include url="skin/skin_2.xml" devices="mobile" />
+
+	<include url="skin/com.xml" />
+
+    <include url="skin/loadinganimation.xml" />
+		<skin_settings maps="false"
+	               maps_type="bing"
+	               maps_bing_api_key=""
+	               maps_zoombuttons="false"
+	               gyro="true"
+	               littleplanetintro="true"
+	               title="true"
+	               thumbs="true"
+	               thumbs_width="120" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160"
+	               thumbs_opened="false"
+	               thumbs_text="false"
+	               thumbs_dragging="true"
+	               thumbs_onhoverscrolling="false"
+	               thumbs_scrollbuttons="false"
+	               thumbs_scrollindicator="false"
+	               thumbs_loop="false"
+	               tooltips_buttons="false"
+	               tooltips_thumbs="false"
+	               tooltips_hotspots="false"
+	               tooltips_mapspots="false"
+	               deeplinking="false"
+	               loadscene_flags="MERGE"
+	               loadscene_blend="OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)"
+	               loadscene_blend_prev="SLIDEBLEND(0.5, 180, 0.75, linear)"
+	               loadscene_blend_next="SLIDEBLEND(0.5,   0, 0.75, linear)"
+	             
+	               layout_width="100%"
+	               layout_maxwidth.normal="900"
+	               layout_maxwidth.mobile=""
+	               controlbar_width.normal="-44"
+	               controlbar_width.mobile="100%"
+	               controlbar_height.normal="38"
+	               controlbar_height.mobile="34"
+	               controlbar_offset.normal="22"
+	               controlbar_offset.mobile="0"
+	               controlbar_offset_closed="-40"
+	               controlbar_overlap.normal="7"
+	               controlbar_overlap.mobile="2"
+	               design_skin_images="vtourskin.png"
+	               design_bgcolor="0x000000"
+	               design_bgalpha="0.5"
+	               design_bgborder="0 0xFFFFFF 1.0"
+	               design_bgroundedge.normal="9"
+	               design_bgroundedge.mobile="1"
+	               design_bgshadow="0 0 9 0xFFFFFF 0.5"
+	               design_thumbborder_bgborder="4 0xFFFFFF 1.0"
+	               design_thumbborder_padding="2"
+	               design_thumbborder_bgroundedge="5"
+	               design_text_css="color:#FFFFFF; font-family:Arial; font-weight:bold;"
+	               design_text_shadow="1"
+	               />
+
+	<action name="startup" autorun="onstart">
+		if(startscene === null OR !scene[get(startscene)], copy(startscene,scene[0].name); );
+		loadscene(get(startscene), null, MERGE);
+		if(startactions !== null, startactions() );
+		if(skin_settings.gyro AND !device.desktop AND device.html5,
+			copy(plugin[skin_gyro].url, plugin[skin_gyro].html5_url);
+		  );
+		  if(startscene === null, copy(startscene,scene[0].name));
+		loadscene(get(startscene), null, MERGE);
+		playsound(bgsnd, '%SWFPATH%/skin/music.mp3', 0);
+
+		if(skin_settings.littleplanetintro AND (device.webgl OR device.flash),
+			skin_setup_littleplanetintro();
+		  );
+
+		skin_addthumbs();
+		skin_onresize();
+		skin_updatescroll();
+
+		set(layer[skin_layer].visible, true);
+	</action>
+
+	
+	<action name="skin_setup_littleplanetintro">
+		copy(lp_scene, xml.scene);
+		copy(lp_hlookat, view.hlookat);
+		copy(lp_vlookat, view.vlookat);
+		copy(lp_fov, view.fov);
+		copy(lp_fovmax, view.fovmax);
+		copy(lp_limitview, view.limitview);
+		set(view.fovmax, 170);
+		set(view.limitview, lookto);
+		set(view.vlookatmin, 90);
+		set(view.vlookatmax, 90);
+		
+		lookat(calc(lp_hlookat - 180), 90, 150, 1, 0, 0);
+		
+			delayedcall(1.5,
+				if(lp_scene === xml.scene,
+					set(control.usercontrol, off);
+					copy(view.limitview, lp_limitview);
+					set(view.vlookatmin, null);
+					set(view.vlookatmax, null);
+					tween(view.hlookat|view.vlookat|view.fov|view.distortion, calc('' + lp_hlookat + '|' + lp_vlookat + '|' + lp_fov + '|' + 0.0),
+						3.0, easeOutQuad,
+						set(control.usercontrol, all);
+						tween(view.fovmax, get(lp_fovmax));
+						);
+				  );
+			  );
+		  
+	</action>
+
+
+	
+	<scene name="scene_01____________" title="标准间" onstart="" thumburl="panos/01____________.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0" vlookat="0" fovtype="MFOV" fov="120"  fovmin="110" fovmax="120" limitview="auto" />
+
+		<preview url="panos/01____________.tiles/preview.jpg" />
+
+		<image type="CUBE" multires="true" tilesize="512">
+			<level tiledimagewidth="1280" tiledimageheight="1280">
+				<cube url="panos/01____________.tiles/%s/l2/%v/l2_%s_%v_%h.jpg" />
+			</level>
+			<level tiledimagewidth="640" tiledimageheight="640">
+				<cube url="panos/01____________.tiles/%s/l1/%v/l1_%s_%v_%h.jpg" />
+			</level>
+			<mobile>
+				<cube url="panos/01____________.tiles/mobile_%s.jpg" />
+			</mobile>
+		</image>
+
+		<!-- 热点 -->
+		<hotspot name="spot3" style="skin_hotspotstyle" ath="-0.675" atv="3.928" linkedscene="scene_02______" />
+
+	</scene>
+
+	<scene name="scene_02______" title="前台" onstart="" thumburl="panos/02______.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0" vlookat="0" fovtype="MFOV" fov="120"  fovmin="110" fovmax="120" limitview="auto" />
+
+		<preview url="panos/02______.tiles/preview.jpg" />
+
+		<image type="CUBE" multires="true" tilesize="512">
+			<level tiledimagewidth="1280" tiledimageheight="1280">
+				<cube url="panos/02______.tiles/%s/l2/%v/l2_%s_%v_%h.jpg" />
+			</level>
+			<level tiledimagewidth="640" tiledimageheight="640">
+				<cube url="panos/02______.tiles/%s/l1/%v/l1_%s_%v_%h.jpg" />
+			</level>
+			<mobile>
+				<cube url="panos/02______.tiles/mobile_%s.jpg" />
+			</mobile>
+		</image>
+
+		<!-- 热点 -->
+		<hotspot name="spot3" style="skin_hotspotstyle" ath="-173.703" atv="24.676" linkedscene="scene_01____________" />
+		<hotspot name="spot4" style="skin_hotspotstyle" ath="-76.085" atv="20.020" linkedscene="scene_03______" />
+
+	</scene>
+
+	<scene name="scene_03______" title="大厅" onstart="" thumburl="panos/03______.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0" vlookat="0" fovtype="MFOV" fov="120"  fovmin="110" fovmax="120" limitview="auto" />
+
+		<preview url="panos/03______.tiles/preview.jpg" />
+
+		<image type="CUBE" multires="true" tilesize="512">
+			<level tiledimagewidth="1280" tiledimageheight="1280">
+				<cube url="panos/03______.tiles/%s/l2/%v/l2_%s_%v_%h.jpg" />
+			</level>
+			<level tiledimagewidth="640" tiledimageheight="640">
+				<cube url="panos/03______.tiles/%s/l1/%v/l1_%s_%v_%h.jpg" />
+			</level>
+			<mobile>
+				<cube url="panos/03______.tiles/mobile_%s.jpg" />
+			</mobile>
+		</image>
+
+		<!-- 热点 -->
+		<hotspot name="spot3" style="skin_hotspotstyle" ath="-46.567" atv="11.633" linkedscene="scene_02______" />
+		<hotspot name="spot4" style="skin_hotspotstyle" ath="114.764" atv="19.255" linkedscene="scene_04______" />
+		<hotspot name="spot5" style="skin_hotspotstyle" ath="-132.719" atv="18.761" linkedscene="scene_05____________a" />
+
+	</scene>
+
+	<scene name="scene_04______" title="书房" onstart="" thumburl="panos/04______.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0" vlookat="0" fovtype="MFOV" fov="120"  fovmin="110" fovmax="120" limitview="auto" />
+
+		<preview url="panos/04______.tiles/preview.jpg" />
+
+		<image type="CUBE" multires="true" tilesize="512">
+			<level tiledimagewidth="1280" tiledimageheight="1280">
+				<cube url="panos/04______.tiles/%s/l2/%v/l2_%s_%v_%h.jpg" />
+			</level>
+			<level tiledimagewidth="640" tiledimageheight="640">
+				<cube url="panos/04______.tiles/%s/l1/%v/l1_%s_%v_%h.jpg" />
+			</level>
+			<mobile>
+				<cube url="panos/04______.tiles/mobile_%s.jpg" />
+			</mobile>
+		</image>
+
+		<!-- 热点 -->
+		<hotspot name="spot3" style="skin_hotspotstyle" ath="88.642" atv="15.444" linkedscene="scene_03______" />
+
+	</scene>
+
+	<scene name="scene_05____________A" title="普通标间A" onstart="" thumburl="panos/05____________A.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0" vlookat="0" fovtype="MFOV" fov="120"  fovmin="110" fovmax="120" limitview="auto" />
+
+		<preview url="panos/05____________A.tiles/preview.jpg" />
+
+		<image type="CUBE" multires="true" tilesize="512">
+			<level tiledimagewidth="1280" tiledimageheight="1280">
+				<cube url="panos/05____________A.tiles/%s/l2/%v/l2_%s_%v_%h.jpg" />
+			</level>
+			<level tiledimagewidth="640" tiledimageheight="640">
+				<cube url="panos/05____________A.tiles/%s/l1/%v/l1_%s_%v_%h.jpg" />
+			</level>
+			<mobile>
+				<cube url="panos/05____________A.tiles/mobile_%s.jpg" />
+			</mobile>
+		</image>
+
+		<!-- 热点 -->
+		<hotspot name="spot3" style="skin_hotspotstyle" ath="79.093" atv="7.161" linkedscene="scene_06____________b" />
+
+	</scene>
+
+	<scene name="scene_06____________B" title="普通标间B" onstart="" thumburl="panos/06____________B.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0" vlookat="0" fovtype="MFOV" fov="120"  fovmin="110" fovmax="120" limitview="auto" />
+
+		<preview url="panos/06____________B.tiles/preview.jpg" />
+
+		<image type="CUBE" multires="true" tilesize="512">
+			<level tiledimagewidth="1280" tiledimageheight="1280">
+				<cube url="panos/06____________B.tiles/%s/l2/%v/l2_%s_%v_%h.jpg" />
+			</level>
+			<level tiledimagewidth="640" tiledimageheight="640">
+				<cube url="panos/06____________B.tiles/%s/l1/%v/l1_%s_%v_%h.jpg" />
+			</level>
+			<mobile>
+				<cube url="panos/06____________B.tiles/mobile_%s.jpg" />
+			</mobile>
+		</image>
+
+		<!-- 热点 -->
+		<hotspot name="spot3" style="skin_hotspotstyle" ath="116.209" atv="15.465" linkedscene="scene_07_________" />
+
+	</scene>
+
+	<scene name="scene_07_________" title="三人间" onstart="" thumburl="panos/07_________.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0" vlookat="0" fovtype="MFOV" fov="120"  fovmin="110" fovmax="120" limitview="auto" />
+
+		<preview url="panos/07_________.tiles/preview.jpg" />
+
+		<image type="CUBE" multires="true" tilesize="512">
+			<level tiledimagewidth="1280" tiledimageheight="1280">
+				<cube url="panos/07_________.tiles/%s/l2/%v/l2_%s_%v_%h.jpg" />
+			</level>
+			<level tiledimagewidth="640" tiledimageheight="640">
+				<cube url="panos/07_________.tiles/%s/l1/%v/l1_%s_%v_%h.jpg" />
+			</level>
+			<mobile>
+				<cube url="panos/07_________.tiles/mobile_%s.jpg" />
+			</mobile>
+		</image>
+
+		<!-- 热点 -->
+		<hotspot name="spot3" style="skin_hotspotstyle" ath="104.627" atv="7.188" linkedscene="scene_08____________" />
+
+	</scene>
+
+	<scene name="scene_08____________" title="豪华标间" onstart="" thumburl="panos/08____________.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0" vlookat="0" fovtype="MFOV" fov="120"  fovmin="110" fovmax="120" limitview="auto" />
+
+		<preview url="panos/08____________.tiles/preview.jpg" />
+
+		<image type="CUBE" multires="true" tilesize="512">
+			<level tiledimagewidth="1280" tiledimageheight="1280">
+				<cube url="panos/08____________.tiles/%s/l2/%v/l2_%s_%v_%h.jpg" />
+			</level>
+			<level tiledimagewidth="640" tiledimageheight="640">
+				<cube url="panos/08____________.tiles/%s/l1/%v/l1_%s_%v_%h.jpg" />
+			</level>
+			<mobile>
+				<cube url="panos/08____________.tiles/mobile_%s.jpg" />
+			</mobile>
+		</image>
+
+		<!-- 热点 -->
+		<hotspot name="spot3" style="skin_hotspotstyle" ath="-104.378" atv="8.482" linkedscene="scene_09_______________a" />
+
+	</scene>
+
+	<scene name="scene_09_______________A" title="豪华大床房A" onstart="" thumburl="panos/09_______________A.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0" vlookat="0" fovtype="MFOV" fov="120"  fovmin="110" fovmax="120" limitview="auto" />
+
+		<preview url="panos/09_______________A.tiles/preview.jpg" />
+
+		<image type="CUBE" multires="true" tilesize="512">
+			<level tiledimagewidth="1280" tiledimageheight="1280">
+				<cube url="panos/09_______________A.tiles/%s/l2/%v/l2_%s_%v_%h.jpg" />
+			</level>
+			<level tiledimagewidth="640" tiledimageheight="640">
+				<cube url="panos/09_______________A.tiles/%s/l1/%v/l1_%s_%v_%h.jpg" />
+			</level>
+			<mobile>
+				<cube url="panos/09_______________A.tiles/mobile_%s.jpg" />
+			</mobile>
+		</image>
+
+		<!-- 热点 -->
+		<hotspot name="spot3" style="skin_hotspotstyle" ath="-114.221" atv="5.896" linkedscene="scene_10_______________b" />
+
+	</scene>
+
+	<scene name="scene_10_______________B" title="豪华大床房B" onstart="" thumburl="panos/10_______________B.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0" vlookat="0" fovtype="MFOV" fov="120"  fovmin="110" fovmax="120" limitview="auto" />
+
+		<preview url="panos/10_______________B.tiles/preview.jpg" />
+
+		<image type="CUBE" multires="true" tilesize="512">
+			<level tiledimagewidth="1280" tiledimageheight="1280">
+				<cube url="panos/10_______________B.tiles/%s/l2/%v/l2_%s_%v_%h.jpg" />
+			</level>
+			<level tiledimagewidth="640" tiledimageheight="640">
+				<cube url="panos/10_______________B.tiles/%s/l1/%v/l1_%s_%v_%h.jpg" />
+			</level>
+			<mobile>
+				<cube url="panos/10_______________B.tiles/mobile_%s.jpg" />
+			</mobile>
+		</image>
+
+		<!-- 热点 -->
+		<hotspot name="spot3" style="skin_hotspotstyle" ath="61.771" atv="4.467" linkedscene="scene_01____________" />
+
+	</scene>
+
+
+</krpano>

@@ -1,0 +1,57 @@
+<krpano>
+
+ <data name="cn_itemtxt3_1"><br/>
+<p align="center" >半日闲民宿   </p><br/>	<!-- 酒店名称 -->
+　　“半日闲黄山民宿”位于徽州区岩寺古镇老街，邻近双溪亭、徽州文化公园南区，新四军军部旧址等景点，“半日闲”外观古朴雅致，内饰保留了徽州建筑的传统韵味，优雅清新；客房舒适宽敞，房型种类多样，房内配置柔软的大床、空调、液晶电视、独立卫浴、24小时热水等设施，周到完善。周边美食、休闲、娱乐精彩纷呈，民宿附近有停车场，宾客出行便捷。
+　　<br/>  	<!--酒店介绍 -->
+
+　　预约热线：15715595928
+</data>
+
+	<!-- 在线地址修改 -->
+
+<action name="openurl_1">
+	openurl('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://360.vrol.cn/brxms', _blank);
+</action>
+
+<action name="openurl_2">
+	openurl('http://share.v.t.qq.com/index.php?c=share&amp;a=index&amp;url=http://360.vrol.cn/brxms', _blank);
+</action>
+
+<action name="openurl_3">
+	openurl('http://service.weibo.com/share/share.php?url=http://360.vrol.cn/brxms', _blank);
+</action>
+
+<action name="openurl_4">
+	openurl('http://widget.renren.com/dialog/share?resourceUrl=http://360.vrol.cn/brxms', _blank);
+</action>
+
+<action name="openurl_5">
+	openurl('tel:15715595928', _blank);
+</action>
+
+<action name="thumbsset">
+	set(i, get(scene[get(xml.scene)].index));
+	txtadd(setpname, 'skin_pthumb_', get(i));
+	txtadd(setwname, 'skin_wthumb_', get(i));
+
+	add(tem11,get(layer[get(setpname)].x), 100);
+	set(tem12,get(layer[get(setwname)].y) );
+	set(tem13,get(layer[get(setpname)].y) );
+	layer[wthumbs].scrolltocenter(0, get(tem12));
+   	layer[pthumbs].scrolltocenter(get(tem11),get(tem13));
+    copy(layer[title].html, scene[get(xml.scene)].title );
+	set(layer[get(setpname)].bordercolor, 0xd58621);set(layer[get(setwname)].backgroundcolor, 0xd58621);set(layer[get(setwname)].backgroundalpha, 1);
+</action>
+<action name="hhhover">  	<!-- 背景颜色 -->
+
+if(backgroundcolor=='0xd58621', ,set(backgroundcolor, 0x1f1f1f);)
+
+</action>
+<action name="ooout">
+if(backgroundcolor=='0xd58621', ,set(backgroundcolor, 0x262626);)
+
+</action>
+
+	<layer name="logo" url="2.png" keep="true" zorder="6" align="topleft" x="0" y="30" height="150" width="260" />
+</krpano>

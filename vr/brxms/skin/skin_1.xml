@@ -1,0 +1,171 @@
+<krpano>
+ 
+		<skin_data 
+			thumbsheight="28"
+			thumbspadding="6"
+			picturethumbsheight="90"
+			picturethumbswidth="198"
+			picturethumbspadding="13"
+			loadscene_flags="MERGE"
+		    loadscene_blend="OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)"
+		    loadscene_blend_prev="SLIDEBLEND(0.5, 180, 0.75, linear)"
+		    loadscene_blend_next="SLIDEBLEND(0.5,   0, 0.75, linear)" />
+
+<include url="sound.xml"/>
+
+
+	<layer name="toptitle" url="topv3.png" align="top" width="100%" height="50" keep="true" zorder="10" >
+		<layer name="zfl" url="%SWFPATH%/plugins/textfield.swf" minwidth.flash="100" height.flash="30" align="righttop" background="false" css="text-align:left; color:#e3dcd2; font-family:Trebuchet MS; font-weight:bold; font-size:16px;letter-spacing:3px;line-height:25px;" html="" y="5" onloaded="js(fun_1(););"/>
+	</layer>
+<!--预定按钮-->
+	<layer name="text" type="container" bgcolor="0x464646" width="50" height="50" align="topright" bgalpha="0" zorder="20" x="0" keep="true">
+		<layer name="reserve" url="icon_skin.png" width="40" height="40" align="center" keep="true" crop="6|6|57|57" onclick="showlog(true);txtadd(url,'https://www.baidu.com/?hotelName=',get(scene[get(xml.scene)].title));trace(url);openurl(get(url),_blank)"/>
+	</layer>
+				<!--左边菜单-->
+	<layer name="leftcontainer" type="container" keep="true" width="260" height="-50" bgcolor="0x464646" bgalpha="0.8" align="lefttop" zorder="5" x="0" >
+		<layer name="wbar" url="white_bar.png" align="topleft" width="260" height="600" y="38" enabled="false" />
+		
+
+		<layer name="thumb1container" type="container" align="topleft" bgcolor="0xff0000" bgalpha="0" keep="true" x="3" y="240" width="254" height="280" maskchildren="true">
+			<layer name="wthumbs" url.flash="%SWFPATH%/plugins/scrollarea.swf" url.html5="%SWFPATH%/plugins/scrollarea.js" direction="v" align="top" width="254" height="100" />
+
+
+		</layer>
+
+		<layer name="thumb2container" type="container" align="topleft" bgcolor="0xff0000" bgalpha="0" keep="true" x="26" y="526" width="206" height="130" maskchildren="true">
+			<layer name="pthumbs" url.flash="%SWFPATH%/plugins/scrollarea.swf" url.html5="%SWFPATH%/plugins/scrollarea.js" direction="h" align="left" width="100" height="100"  />
+
+
+		</layer>
+
+		<layer name="s_left" url="btn_scroll_left.png" align="topleft" x="0" y="572" ondown="asyncloop(pressed, layer[pthumbs].scrollby(+2,0));" />
+		<layer name="s_right" url="btn_scroll_right.png" align="topleft" x="230" y="572" ondown="asyncloop(pressed, layer[pthumbs].scrollby(-2,0));" />
+
+	</layer>
+
+
+	<layer name="togglebutton" url="skin_index.png" crop="328|215|82|82" keep="true" zorder="7" align="leftbottom" x="0" y="0" height="50" width="50" onclick="if(layer[leftcontainer].x==0,tween(layer[leftcontainer].x,-260);,tween(layer[leftcontainer].x,0););switch(crop,328|215|82|82 ,  328|296|82|82)" />
+
+       <!--底部菜单-->
+	<layer name="bottomcontainer" type="container" height="50" width="100%" bgcolor="0xffffff" bgalpha="0.8" keep="true" align="bottom" zorder="6">
+
+		<layer name="zoomin" url="skin_index.png" crop="0|94|60|60" align="bottom" width="40" height="40" x="-100" y="5"  onover="set(crop, 0|154|60|60)" onout="set(crop, 0|94|60|60)" ondown="set(fov_moveforce, -0.20);" onup="set(fov_moveforce, 0);"/>
+		<layer name="zoomout" url="skin_index.png" crop="60|94|60|60" align="bottom" width="40" height="40" x="-50" y="5" onover="set(crop, 60|154|60|60)" onout="set(crop, 60|94|60|60)" ondown="set(fov_moveforce, +0.40);" onup="set(fov_moveforce, 0);"/>
+		<layer name="info" url="skin_index.png" crop="0|214|82|82"  align="bottom" width="50" height="50" x="0" y="0" onover="set(crop, 0|296|82|82)" onout="set(crop, 0|214|82|82)" onclick="loadItem(1,1)"/>
+
+
+		<layer name="directions" url="skin_index.png" crop="82|214|82|82"  align="bottom" width="50" height="50" x="50" y="0" url1="../tem/map.html"  onclick="openurl(get(url1), _blank)" onover="set(crop, 82|296|82|82)" onout="set(crop, 82|214|82|82)"/>
+
+		<layer name="share" url="skin_index.png" crop="164|214|82|82"  align="bottom" width="50" height="50" x="100" y="0" onover="set(crop, 164|296|82|82)" onout="set(crop, 164|214|82|82)" onclick="set(layer[sharecontainer].visible, true)"/>
+
+
+
+		<layer name="rightbottom" url="skin_index.png" crop="246|214|82|82" onover="set(crop, 246|296|82|82)" onout="set(crop, 246|214|82|82)"  align="rightbottom" width="50" height="50" onclick="openurl('http://www.zunwang.com.cn',_blank)" />
+
+
+
+	</layer>
+<action name="addthumbs_word">
+copy(thumbsheight, skin_data.thumbsheight);
+copy(thumbspadding, skin_data.thumbspadding);
+add(thumbyoffset, thumbsheight, thumbspadding);
+mul(thumbbarheight, thumbyoffset, scene.count);
+add(thumbbarheight, thumbspadding);
+
+
+copy(layer[wthumbs].height, thumbbarheight);
+
+for(set(i,0), i LT scene.count, inc(i),
+				txtadd(thumbname,'skin_wthumb_',get(i));
+				addlayer(get(thumbname));
+				set(layer[get(thumbname)].url, '%SWFPATH%/plugins/textfield.swf');
+				set(layer[get(thumbname)].keep, true);
+				set(layer[get(thumbname)].parent, 'wthumbs');
+				set(layer[get(thumbname)].align, top);
+				set(layer[get(thumbname)].background, true);
+				set(layer[get(thumbname)].backgroundcolor, '0x262626');
+				set(layer[get(thumbname)].backgroundalpha, 0.5);
+				set(layer[get(thumbname)].onhover, hhhover());
+				set(layer[get(thumbname)].onout, ooout());
+	
+				set(layer[get(thumbname)].border, false);
+
+
+				set(layer[get(thumbname)].css, 'text-align:center; color:#FFFFFF; font-family:Trebuchet MS; font-weight:bold; font-size:16px;letter-spacing:3px;line-height:25px;');
+
+				set(layer[get(thumbname)].width, 98%);
+				
+				set(layer[get(thumbname)].height, 28);
+				mul(thumby, i, thumbyoffset);
+				add(thumby, thumbspadding);
+				set(layer[get(thumbname)].x, 0);
+				copy(layer[get(thumbname)].y, thumby);
+				set(layer[get(thumbname)].html, get(scene[get(i)].title));
+				set(layer[get(thumbname)].linkedscene, get(scene[get(i)].name) );
+				set(layer[get(thumbname)].onclick,  loadscene(get(linkedscene),null,get(skin_data.loadscene_flags),get(skin_data.loadscene_blend)); );
+
+
+			
+			   );
+</action>
+
+<action name="addthumbs_picture">
+copy(thumbheight, skin_data.picturethumbsheight);
+copy(thumbwidth, skin_data.picturethumbswidth);
+copy(thumbpadding, skin_data.picturethumbspadding);
+add(thumbxoffset, thumbwidth, thumbpadding);
+mul(thumbbarwidth, thumbxoffset, scene.count);
+add(thumbbarwidth, thumbpadding);
+
+
+copy(layer[pthumbs].width, thumbbarwidth);
+copy(layer[pthumbs].height, thumbheight);
+
+for(set(i,0), i LT scene.count, inc(i),
+				txtadd(thumbname,'skin_pthumb_',get(i));
+				addlayer(get(thumbname));
+				set(layer[get(thumbname)].url, '%SWFPATH%/plugins/textfield.swf');
+				set(layer[get(thumbname)].keep, true);
+				set(layer[get(thumbname)].parent, 'pthumbs');
+				set(layer[get(thumbname)].align, left);
+				set(layer[get(thumbname)].zorder, 6);
+
+				set(layer[get(thumbname)].background, false);
+				set(layer[get(thumbname)].border, true);
+				set(layer[get(thumbname)].bordercolor, '0xffffff');
+				set(layer[get(thumbname)].borderwidth, 4);
+				copy(layer[get(thumbname)].width, thumbwidth);
+				copy(layer[get(thumbname)].height, thumbheight);
+
+				mul(thumbx, i, thumbxoffset);
+				add(thumbx, 4);
+				set(layer[get(thumbname)].y, 5);
+				copy(layer[get(thumbname)].x, thumbx);
+
+
+
+				txtadd(picthumbname, 'pictji_', get(i));
+				addlayer(get(picthumbname));
+				copy(layer[get(picthumbname)].url, scene[get(i)].thumburl);
+				set(layer[get(picthumbname)].crop, 0|90|240|140);
+				
+				set(layer[get(picthumbname)].keep, true);
+				set(layer[get(picthumbname)].parent, get(thumbname));
+				
+				set(layer[get(picthumbname)].align, center);
+				
+
+				copy(layer[get(picthumbname)].width, thumbwidth);
+				copy(layer[get(picthumbname)].height, thumbheight);				
+				
+				set(layer[get(picthumbname)].linkedscene, get(scene[get(i)].name) );
+				set(layer[get(picthumbname)].onclick,  loadscene(get(linkedscene),null,get(skin_data.loadscene_flags),get(skin_data.loadscene_blend)); );
+
+
+			
+			   );
+</action>
+
+</krpano>
+
+

@@ -1,0 +1,162 @@
+<krpano  >
+
+
+
+
+
+
+
+
+
+<!--图片+文字作品信息显示ui-->
+		<layer name="infocontainer" keep="true" type="container" zorder="1001"  visible="false" bgcolor="0xf7f5ec" align="center" width="100%" height="100%" x="0" y="0" bgalpha="0.9" bgcapture="true">
+		
+		<layer name="topbg" url="info.png" crop="0|0|180|92" align="lefttop" zorder="88" width="100%" height.mobile="92" height.normal="60"/>
+		<layer name="infoclose" url="info.png" crop="0|92|90|90" onovercrop="0|182|90|90" ondowncrop="0|182|90|90" zorder="99" align="righttop" x="0" y.mobile="-2" y.normal="-15" onclick="onInfoclose();"/>
+		<layer name="zpxx" url="info.png" crop="90|92|180|90" align="centertop" zorder="98" width="180" height="90" x="0" y.mobile="-2" y.normal="-15"/>
+
+
+
+		<layer name="itempreviewscrollcontainer" type="container" visible="true" bgcolor="0x00ff00" align="centertop" width="100%" height="640" x="0" y.mobile="92" y.normal="60" bgalpha="0.0" bgcapture="true">
+			<layer name="itempreviewscroll" type="container" url="%SWFPATH%/plugins/scrollarea.swf" alturl="%SWFPATH%/plugins/scrollarea.js" direction="v" draggable="true" keep="true" visible="true" align="lefttop" x="0" y="30" width="100%" height="" bgcolor="0xf7f5ec" bgalpha="0.0">
+				<layer name="itemimgpic" type="image" url="" align="centertop" width="" height="" keep="true" y="30" visible="true" bgalpha="1.0" onloaded="itemonload();"/>
+				<layer name="textcontainer" keep="true" type="container" bgcolor="0xf7f5ec" align="center" width="100%" height="100%" autoheight="true" x="0" y="0" bgalpha="0.0" bgcapture="true">
+				
+					<layer name="itemtxt3" url="%HTMLPATH%/plugins/textfield.swf" keep="false" visible="true" enabled="false" align="lefttop" x="32" y="50" autowidth="auto" autoheight="true" background="false" backgroundcolor="0xf7f5ec" bgalpha="1.0" css="font-family:微软雅黑;font-size:26px; text-align:justify; text-justify:inter-idograph;leading:20;" onautosized="skin_onresize();" html="" />
+					
+				</layer>
+			</layer>
+		</layer>
+	</layer>
+
+	
+
+	<action name="loaditemtxtinfo">	
+	copy(destwidth, stagewidth); 
+	copy(destheight, stageheight); 	
+
+	<!--控制作品介绍宽度-->
+	sub(textinfowidth,destwidth,64);
+	
+	set(layer[itemtxt3].width,get(textinfowidth));
+
+
+
+	txtadd(itemitemtxt3name, "cn_itemtxt3_",get(imgid));
+
+	set(layer[itemtxt3].html,get(data[get(itemitemtxt3name)].content));
+
+	set(layer[itemtxt3].y,0);
+
+		
+	set(layer[itemimgpic].url,'%SWFPATH%/tem/1.png');
+
+	</action>
+	
+	<!--显示作品信息-->
+	<action name="loadItem">
+	
+
+
+
+	set(layer[infocontainer].visible,true);	
+
+
+
+	set(imgid,%1);
+	loaditemtxtinfo(%2);
+	set(layer[itemimgpic].visible,true);
+	</action>
+	<action name="itemonload">
+		copy(destwidth, stagewidth); 
+		copy(destheight, stageheight);
+		set(picwidth, get(layer[itemimgpic].width));	
+		set(picheight, get(layer[itemimgpic].height));
+
+		
+		if(destwidth GE picwidth
+
+		,
+			set(layer[itemimgpic].scale,1);
+			set(changepicheight,get(picheight));
+		,
+			
+			sub(stagewidth1,destwidth,64);
+			div(scalenum,stagewidth1,picwidth);
+
+
+			set(layer[itemimgpic].scale,get(scalenum));
+			mul(changepicheight,picheight,scalenum);
+			copy(picheight,get(changepicheight));
+
+			
+
+		);
+			
+			
+			add(scrollheight1,40,get(layer[itemtxt1].height));
+			
+			add(scrollheight7,scrollheight1,changepicheight);
+			add(scrollheight8,scrollheight7,85);
+			add(scrollheight8,get(layer[itemtxt2].height));
+			add(scrollheight8,get(layer[itemtxt3].height));
+			
+
+			set(layer[itempreviewscroll].height,get(scrollheight8));
+
+			sub(scrollarea,destheight,92);
+			set(layer[itempreviewscrollcontainer].height,get(scrollarea));
+			
+			add(changepicheight1,changepicheight,35);
+			set(layer[textcontainer].y,get(changepicheight1));
+
+
+			
+			sub(ceshiheight,190,get(changepicheight));
+			set(layer[itemimgpic].y,30);
+
+			set(layer[itemtxt1].y,40);
+
+
+			add(scrollheight10,40,get(layer[itemtxt1].height));
+			set(layer[itemtxt2].y,get(scrollheight10));
+
+			add(scrollheight20,get(scrollheight1),get(layer[itemtxt2].height));
+			set(layer[itemtxt3].y,get(scrollheight20));
+		
+
+			set(layer[itemimgpic].visible,true);
+			
+			
+	</action>
+	<!--关闭info-->
+	<action name="onInfoclose">
+	set(layer[infocontainer].visible,false);	
+
+	set(layer[itemimgpic].visible,false);
+
+
+	</action>
+
+
+	<action name="onupdInfo">
+		
+			loaditemtxtinfo();
+			itemonload();
+	</action>
+	<action name="skin_onresize">
+
+
+
+		copy(destwidth, stagewidth); 
+		copy(destheight, stageheight);
+		onupdInfo();
+		
+	</action>
+
+
+
+	
+	
+
+</krpano>

@@ -1,0 +1,120 @@
+<krpano  >
+<include url="%SWFPATH%/tem/info.xml"/>
+<include url="pop-up.xml"/>
+<autorotate enabled="true" waittime.normal="1" speed="3.0" waittime.mobile="0.1"/>
+
+	<!-- 分享 -->
+<layer name="sharecontainer" type="container" keep="true" visible="false" width="100%" height="100%" align="center" bgcolor="0x000000" bgalpha="0.5" bgcapture="true" handcursor="false" zorder="120" onclick="set(visible, false)">
+
+		<layer name="topline" url="dLine.png" width="100%" height="1" align="center" x="0" y="50"  />
+		<layer name="bottomline" url="dLine.png" width="100%" height="1" align="center" x="0" y="-50"  />
+
+		<layer name="fx_qq" url="skin_index.png" crop="300|94|60|60" zorder="121" x="-90" y="0" align="center" alpha="1" scale="1.0" 
+		onclick="openurl_1()"/>
+		
+		<layer name="fx_qqweibo" url="skin_index.png" crop="180|94|60|60" zorder="121" x="-30" y="0" align="center" alpha="1" scale="1.0" 
+onclick="openurl_2()"/>
+		
+		<layer name="fx_weibao" url="skin_index.png" crop="120|94|60|60" zorder="121" x="30" y="0" align="center" alpha="1" scale="1.0" 
+onclick="openurl_3()"/>
+		
+		<layer name="fx_renren" url="skin_index.png" crop="240|94|60|60" zorder="121" x="+90" y="0" align="center" alpha="1" scale="1.0"
+onclick="openurl_4()"/>
+
+
+</layer>
+
+<events name="skin_events" keep="true"
+	onxmlcomplete="addthumbs_word();addthumbs_picture(); set(events[skin_events].onxmlcomplete,null);"
+	onnewpano="thumbsset();"
+	onremovepano="whiteall();"
+	onresize="skin_onresize();"
+	/>
+
+<action name="whiteall">
+	for(set(i,0), i LT scene.count ,inc(i),
+		txtadd(setpname, 'skin_pthumb_', get(i));
+		txtadd(setwname, 'skin_wthumb_', get(i));
+		set(layer[get(setpname)].bordercolor, 0xffffff);
+		set(layer[get(setwname)].backgroundcolor, 0x262626);
+		set(layer[get(setwname)].backgroundalpha, 0.5);
+	)
+</action>
+
+
+<hotspot name="copyright" devices="all"
+	         url="dlogo.png"
+	         keep="true"
+	         ath="-48.107" atv="90.000"
+	         zoom="false" distorted="false" details="10" flying="0"
+	         width="250" height="250"
+	         scale="0.8" scale9grid="" scalechildren="false" rotate="0"
+	         rx="0" ry="0" rz="0"
+	         edge="center" ox="" oy=""
+	         crop="" ondowncrop="" onovercrop=""
+	         visible="true" enabled="true" usecontentsize="false" handcursor="true" capture="false" children="true" maskchildren="false"
+ 	         zorder="0"
+	         alpha="1.0" autoalpha="false" blendmode="normal" effect="" smoothing="true" pixelhittest="false"
+	         refreshrate="auto"
+ 	         onloaded=""
+	         onhover=""
+	         onout=""
+	         ondown=""
+	         onup=""
+	         onclick="openurl('http://www.zunwang.com.cn' ,_blank)"
+			   />
+
+
+
+ <style name="skin_hotspotstyle"  url="new_spotd1_gif.png"  alpha="1"
+	       crop="0|0|128|128"
+	       frames="24" framewidth="128" frameheight="128" frame="1" scale="0.62" edge="top" oy="0" distorted="false" scale.ios="0.5"
+	       tooltip=""
+	       onclick="if(linkedscene, tween(scale,0.25,0.5); tween(oy,-20,0.5); tween(alpha,0,0.5); loadscene(get(linkedscene),null,MERGE,BLEND(1)); skin_updatescroll(); );"
+	      
+		   onloaded="hotspot_animate();if(distorted, ,add_all_the_time_tooltip(get(linkedscene),1));" 
+	       />
+
+
+<action name="hotspot_animate">
+		inc(frame,1,get(frames),0);
+		mul(ypos,frame,frameheight);
+		txtadd(crop,'0|',get(ypos),'|',get(framewidth),'|',get(frameheight));
+		delayedcall(0.1, hotspot_animate() );
+		
+</action>
+
+	    <!-- 箭头上添加文字的部分 开始 -->	   
+ <action name="add_all_the_time_tooltip">
+    txtadd(tooltipname, 'tooltip_', get(name));
+    addplugin(get(tooltipname));
+    txtadd(plugin[get(tooltipname)].parent, 'hotspot[', get(name), ']');
+    set(plugin[get(tooltipname)].url,'%SWFPATH%/plugins/textfield.swf');
+    set(plugin[get(tooltipname)].align,bottom);
+    set(plugin[get(tooltipname)].edge,top);
+    set(plugin[get(tooltipname)].x,0);
+    if(devices=="iphone",
+    set(plugin[get(tooltipname)].y,130);,
+    set(plugin[get(tooltipname)].y,100););
+   
+ 
+    set(plugin[get(tooltipname)].autoheight,true);
+    set(plugin[get(tooltipname)].background,true);
+	set(plugin[get(tooltipname)].backgroundcolor,0x000000);
+	set(plugin[get(tooltipname)].roundedge,5);
+	set(plugin[get(tooltipname)].backgroundalpha,0.5);
+    set(plugin[get(tooltipname)].border,false);
+	set(plugin[get(tooltipname)].glow,4);
+	set(plugin[get(tooltipname)].glowcolor,0xFFFFFF);
+    set(plugin[get(tooltipname)].css,'text-align:center; color:#FFFFFF; font-family:Arial; font-weight:bold; font-size:20px;');
+    set(plugin[get(tooltipname)].textshadow,1);
+    set(plugin[get(tooltipname)].textshadowrange,6.0);
+    set(plugin[get(tooltipname)].textshadowangle,90);
+    copy(plugin[get(tooltipname)].html,scene[get(linkedscene)].title);
+    set(plugin[get(tooltipname)].enabled,false);
+
+</action>
+
+	<!-- 箭头上添加文字的部分 结束 -->	  
+
+</krpano >
